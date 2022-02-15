@@ -1,9 +1,10 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import PropTypes from 'prop-types';
 
-const ShowAddFormList = (props) => {
+const ShowAddFormList = ({ showForm }) => {
     const onShowForm = () => {
-        props.showForm();
+        showForm();
     }
     return (
         <Form className="switch_form">
@@ -15,6 +16,10 @@ const ShowAddFormList = (props) => {
             />
         </Form>
     )
+}
+
+ShowAddFormList.propTypes = {
+    showForm: PropTypes.func.isRequired
 }
 
 export default ShowAddFormList;

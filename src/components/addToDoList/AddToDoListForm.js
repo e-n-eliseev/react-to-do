@@ -19,7 +19,12 @@ const AddToDoListForm = (props) => {
                 onChange={(event) => setInputValue(event.target.value)}
             ></input>
             <input type='submit' hidden></input>
-            <Button className="btn_form" type='submit' variant="success">Save</Button>
+            <Button
+                className="btn_form"
+                type='submit'
+                variant="success">
+                Save
+            </Button>
         </form>
 
     )

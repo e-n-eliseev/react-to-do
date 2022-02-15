@@ -8,9 +8,14 @@ import uniqid from 'uniqid';
 import { TailSpin } from 'react-loader-spinner'
 
 function App() {
+  //хук параметра видимости формы
   const [addFormVision, setAddFormVision] = useState(false);
+  //хук списка дел
   const [toDoList, setToDoList] = useState("");
+  //хук этапа подгрузки данных
   const [loading, setLoading] = useState(true);
+
+  //хук загружающий данные после монтирования компонента
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
       .then(response => response.json())
@@ -26,9 +31,11 @@ function App() {
         setLoading(false);
       }, 2000));
   }, []);
+  //функция удаления элемента
   const deleteItem = (id) => {
     setToDoList(toDoList.filter(item => item.id !== id))
   }
+  //функция изменения статуса записи
   const changeStatus = (id) => {
     setToDoList(toDoList.map(item => {
       if (item.id === id) {
@@ -37,9 +44,11 @@ function App() {
       return item;
     }))
   }
+  //функция изменения видимости формы
   const showForm = () => {
     setAddFormVision(!addFormVision);
   }
+  //функция добавления записи в список
   const addItemToForm = (text) => {
     const newToDoList = [...toDoList];
     newToDoList.push({ id: uniqid(), status: false, text });
@@ -77,7 +86,6 @@ function App() {
           Created by e-n-eliseev. Click to visit GitHub page.
         </a>
       </footer>
-
     </div>
   );
 }

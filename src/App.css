@@ -71,12 +71,11 @@
   border-radius: 5px;
   box-shadow: 0 0 5px #ced4da;
   background-color: rgb(152, 195, 195);
+  margin: 10px;
 }
 .list_item_text {
   flex-grow: 1;
   font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.5;
   padding: 10px;
   margin: 0;
   position: relative;
