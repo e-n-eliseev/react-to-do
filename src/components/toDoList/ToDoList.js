@@ -3,15 +3,14 @@ import ToDoListItem from "./toDoListItem/ToDoListItem";
 import uniqid from 'uniqid';
 import PropTypes from 'prop-types';
 
-const ToDoList = ({ toDoList, deleteItem, changeStatus }) => {
+const ToDoList = ({ toDoList }) => {
     return (
         <ul className="list">
             {!!toDoList.length && toDoList.map(item => {
                 return <ToDoListItem
                     key={uniqid()}
                     item={item}
-                    deleteItem={deleteItem}
-                    changeStatus={changeStatus} />
+                />
             })}
         </ul>
     );

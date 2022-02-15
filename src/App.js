@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ToDoList from './components/toDoList/ToDoList';
 import uniqid from 'uniqid';
 import { TailSpin } from 'react-loader-spinner'
+import Context from './Context';
 
 function App() {
   //хук параметра видимости формы
@@ -55,38 +56,40 @@ function App() {
     setToDoList(newToDoList);
   }
   return (
-    <div className="App">
-      <header className="header">
-        <h1 className='app_heading'>
-          Welcome to TODO list react page
-        </h1>
-      </header>
-      <main className='main'>
-        <h2 className='main_heading'>
-          Here you can change your ToDo list table.
-        </h2>
-        <ShowAddFormList showForm={showForm} />
-        {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
-        {loading
-          ? <TailSpin
-            color="rgb(152, 195, 195)"
-            height={80}
-            width={80}
-          />
-          : toDoList.length
-            ? <ToDoList
-              toDoList={toDoList}
-              deleteItem={deleteItem}
-              changeStatus={changeStatus} />
-            : <h3>Your TODO list is empty</h3>
-        }
-      </main>
-      <footer className='footer'>
-        <a href='https://github.com/e-n-eliseev'>
-          Created by e-n-eliseev. Click to visit GitHub page.
-        </a>
-      </footer>
-    </div>
+    <Context.Provider value={{ deleteItem, changeStatus }}>
+      <div className="App">
+        <header className="header">
+          <h1 className='app_heading'>
+            Welcome to TODO list react page
+          </h1>
+        </header>
+        <main className='main'>
+          <h2 className='main_heading'>
+            Here you can change your ToDo list table.
+          </h2>
+          <ShowAddFormList showForm={showForm} />
+          {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
+          {loading
+            ? <TailSpin
+              color="rgb(152, 195, 195)"
+              height={80}
+              width={80}
+            />
+            : toDoList.length
+              ? <ToDoList
+                toDoList={toDoList}
+                deleteItem={deleteItem}
+                changeStatus={changeStatus} />
+              : <h3>Your TODO list is empty</h3>
+          }
+        </main>
+        <footer className='footer'>
+          <a href='https://github.com/e-n-eliseev'>
+            Created by e-n-eliseev. Click to visit GitHub page.
+          </a>
+        </footer>
+      </div>
+    </Context.Provider>
   );
 }
 

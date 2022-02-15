@@ -1,22 +1,37 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
+//кастомный хук
+const useInput = (defaultValue) => {
+    const [inputValue, setInputValue] = useState(defaultValue)
+    return {
+        bind: {
+            value: inputValue,
+            onChange: (event) => setInputValue(event.target.value)
+        },
+        clear: () => setInputValue(""),
+        value: () => inputValue
+    }
+}
 
 const AddToDoListForm = (props) => {
-    const [inputValue, setInputValue] = useState('')
+
+    const input = useInput("");
+
     const onSubmitItem = (event) => {
         event.preventDefault();
-        console.log(inputValue)
-        props.addItemToForm(inputValue);
-        setInputValue('')
+        //проверяем на пустую строку или на строку из пробелов
+        if (input.value().trim()) {
+            props.addItemToForm(input.value());
+            input.clear();
+        }
     }
     return (
         <form className="add_form" onSubmit={onSubmitItem}>
             <input
                 className="input_form"
                 placeholder="Введите задачу!"
-                value={inputValue}
-                onChange={(event) => setInputValue(event.target.value)}
+                {...input.bind}
             ></input>
             <input type='submit' hidden></input>
             <Button
