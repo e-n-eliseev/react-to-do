@@ -1,38 +1,102 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  background-color: azure;
+}
+.header,
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  background-color: rgb(186, 240, 240);
+}
+.main {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 10px 0;
+}
+.main_heading {
+  margin: 20px 0;
+}
+.add_form {
+  width: 500px;
+}
+.list {
+  margin: 0;
+  padding: 0;
+}
+.btn_form {
+  margin: 20px 0;
+}
+.btn_list {
+  flex: 0 0 105px;
+}
+.switch_form {
+  margin: 20px;
+}
+.list_item_text_done {
+  text-decoration: line-through;
+}
+.list_item {
+  display: flex;
+  width: 500px;
+  align-items: center;
+  gap: 10px;
+}
+.input_form {
+  border: 1px solid #ced4da;
+  padding: 10px;
+  margin: 0 10px 0 0;
+  border-radius: 5px;
+}
+.input_form:focus {
+  border: 1px solid #ced4da;
+  outline: 3px solid #0dcaf0;
+}
+.input_form {
+  border: 1px solid #ced4da;
+  padding: 10px;
+  margin: 0 10px 0 0;
 }
 
-.App-link {
-  color: #61dafb;
+.list_item,
+.add_form {
+  border: 2px solid #ced4da;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #ced4da;
+  background-color: rgb(152, 195, 195);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.list_item_text {
+  flex-grow: 1;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 10px;
+  margin: 0;
+  position: relative;
+}
+.list_item_sticker {
+  position: absolute;
+  display: block;
+  background-color: azure;
+  text-align: center;
+  width: 100px;
+  height: 30px;
+  border: 2px solid coral;
+  top: 25%;
+  left: 10%;
+  color: coral;
+  transform: rotate(366grad);
+}
+.footer a {
+  text-decoration: none;
+  font-size: 1.5 rem;
+  font-weight: 600;
+  color: black;
 }

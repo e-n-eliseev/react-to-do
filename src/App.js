@@ -1,23 +1,83 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AddToDoListForm from './components/addToDoList/AddToDoListForm';
+import ShowAddFormList from './components/showAddFormList/ShowAddFormList';
+import { useEffect, useState } from 'react';
+import ToDoList from './components/toDoList/ToDoList';
+import uniqid from 'uniqid';
+import { TailSpin } from 'react-loader-spinner'
 
 function App() {
+  const [addFormVision, setAddFormVision] = useState(false);
+  const [toDoList, setToDoList] = useState("");
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then(response => response.json())
+      .then(json => json.map(item => {
+        return {
+          id: item.id,
+          text: item.title,
+          status: item.completed
+        }
+      }))
+      .then(data => setTimeout(() => {
+        setToDoList(data);
+        setLoading(false);
+      }, 2000));
+  }, []);
+  const deleteItem = (id) => {
+    setToDoList(toDoList.filter(item => item.id !== id))
+  }
+  const changeStatus = (id) => {
+    setToDoList(toDoList.map(item => {
+      if (item.id === id) {
+        item.status = !item.status
+      }
+      return item;
+    }))
+  }
+  const showForm = () => {
+    setAddFormVision(!addFormVision);
+  }
+  const addItemToForm = (text) => {
+    const newToDoList = [...toDoList];
+    newToDoList.push({ id: uniqid(), status: false, text });
+    setToDoList(newToDoList);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="header">
+        <h1 className='app_heading'>
+          Welcome to TODO list react page
+        </h1>
       </header>
+      <main className='main'>
+        <h2 className='main_heading'>
+          Here you can change your ToDo list table.
+        </h2>
+        <ShowAddFormList showForm={showForm} />
+        {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
+        {loading
+          ? <TailSpin
+            color="rgb(152, 195, 195)"
+            height={80}
+            width={80}
+          />
+          : toDoList.length
+            ? <ToDoList
+              toDoList={toDoList}
+              deleteItem={deleteItem}
+              changeStatus={changeStatus} />
+            : <h3>Your TODO list is empty</h3>
+        }
+      </main>
+      <footer className='footer'>
+        <a href='https://github.com/e-n-eliseev'>
+          Created by e-n-eliseev. Click to visit GitHub page.
+        </a>
+      </footer>
+
     </div>
   );
 }
