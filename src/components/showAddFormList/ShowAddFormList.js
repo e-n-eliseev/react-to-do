@@ -2,9 +2,12 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import PropTypes from 'prop-types';
 
-const ShowAddFormList = ({ showForm }) => {
-    const onShowForm = () => {
-        showForm();
+const ShowAddFormList = ({ showAddForm, showSearchForm }) => {
+    const onShowAddForm = () => {
+        showAddForm();
+    }
+    const onShowSearchForm = () => {
+        showSearchForm();
     }
     return (
         <Form className="switch_form">
@@ -12,14 +15,21 @@ const ShowAddFormList = ({ showForm }) => {
                 type="switch"
                 id="custom-switch"
                 label="Show TODO add form"
-                onChange={onShowForm}
+                onChange={onShowAddForm}
+            />
+            <Form.Check
+                type="switch"
+                id="custom-switch"
+                label="Show search form"
+                onChange={onShowSearchForm}
             />
         </Form>
     )
 }
 
 ShowAddFormList.propTypes = {
-    showForm: PropTypes.func.isRequired
+    showAddForm: PropTypes.func.isRequired,
+    showSearchForm: PropTypes.func.isRequired
 }
 
 export default ShowAddFormList;

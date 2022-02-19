@@ -9,12 +9,16 @@ import { TailSpin } from 'react-loader-spinner'
 import Context from './Context';
 
 function App() {
-  //хук параметра видимости формы
+  //хук параметра видимости формы добавления элемента в список
   const [addFormVision, setAddFormVision] = useState(false);
+  //хук параметра видимости формы поиска элемента в списоке
+  const [searchFormVision, setSearchFormVision] = useState(false);
   //хук списка дел
   const [toDoList, setToDoList] = useState("");
   //хук этапа подгрузки данных
   const [loading, setLoading] = useState(true);
+  //хук расзмера страницы паггинации
+  const [numPerPage] = useState(4);
 
   //хук загружающий данные после монтирования компонента
   useEffect(() => {
@@ -45,9 +49,13 @@ function App() {
       return item;
     }))
   }
-  //функция изменения видимости формы
-  const showForm = () => {
+  //функция изменения видимости формы добавления элемента
+  const showAddForm = () => {
     setAddFormVision(!addFormVision);
+  }
+  //функция изменения видимости формы поиска элемента
+  const showSearchForm = () => {
+    setSearchFormVision(!searchFormVision);
   }
   //функция добавления записи в список
   const addItemToForm = (text) => {
@@ -67,7 +75,10 @@ function App() {
           <h2 className='main_heading'>
             Here you can change your ToDo list table.
           </h2>
-          <ShowAddFormList showForm={showForm} />
+          <ShowAddFormList
+            showAddForm={showAddForm}
+            showSearchForm={showSearchForm}
+          />
           {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
           {loading
             ? <TailSpin
@@ -78,8 +89,8 @@ function App() {
             : toDoList.length
               ? <ToDoList
                 toDoList={toDoList}
-                deleteItem={deleteItem}
-                changeStatus={changeStatus} />
+                numPerPage={numPerPage}
+              />
               : <h3>Your TODO list is empty</h3>
           }
         </main>
