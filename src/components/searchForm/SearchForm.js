@@ -16,15 +16,15 @@ const useInput = (defaultValue, searchReset) => {
     }
 }
 
-const SearchForm = (props) => {
+const SearchForm = ({ searchReset, searchItem }) => {
 
-    const input = useInput("", props.searchReset);
+    const input = useInput("", searchReset);
 
     const onSubmitItem = (event) => {
         event.preventDefault();
         //проверяем на пустую строку или на строку из пробелов
         if (input.value().trim()) {
-            props.searchItem(input.value());
+            searchItem(input.value());
         }
     }
     return (

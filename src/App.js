@@ -4,6 +4,7 @@ import AddToDoListForm from './components/addToDoList/AddToDoListForm';
 import ShowAddFormList from './components/showAddFormList/ShowAddFormList';
 import { useEffect, useState } from 'react';
 import ToDoList from './components/toDoList/ToDoList';
+//пакет для генерации уникальных ID
 import uniqid from 'uniqid';
 import { TailSpin } from 'react-loader-spinner'
 import Context from './Context';
@@ -85,7 +86,6 @@ function App() {
   }
   //функция добавления записи в список
   const addItemToForm = (text) => {
-    //const newToDoList = [...toDoList];
     toDoList.push({ id: uniqid(), status: false, text });
     setToDoList(toDoList);
     setFilteredToDoList(toDoList);

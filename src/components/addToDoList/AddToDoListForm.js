@@ -14,7 +14,7 @@ const useInput = (defaultValue) => {
     }
 }
 
-const AddToDoListForm = (props) => {
+const AddToDoListForm = ({ addItemToForm }) => {
 
     const input = useInput("");
 
@@ -22,7 +22,7 @@ const AddToDoListForm = (props) => {
         event.preventDefault();
         //проверяем на пустую строку или на строку из пробелов
         if (input.value().trim()) {
-            props.addItemToForm(input.value());
+            addItemToForm(input.value());
             input.clear();
         }
     }
