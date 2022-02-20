@@ -11,6 +11,7 @@ const useInput = (defaultValue, searchReset) => {
         },
         onReset: () => {
             searchReset();
+            setInputValue("")
         },
         value: () => inputValue
     }
