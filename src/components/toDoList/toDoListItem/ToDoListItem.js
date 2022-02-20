@@ -18,7 +18,7 @@ const ToDoListItem = ({ item }) => {
         <li className="list_item">
             <Button className="btn_form btn_list"
                 //onClick={() => onChangeStatus(item.status)}
-                //можно написать иначеб такой способ более производительный
+                //можно написать иначе, такой способ более производительный
                 onClick={onChangeStatus.bind(null, item.status)}
                 variant="success">
                 {!item.status ? "Done!" : "Not yet!"}

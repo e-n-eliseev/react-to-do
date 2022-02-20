@@ -30,7 +30,7 @@ const AddToDoListForm = (props) => {
         <form className="add_form" onSubmit={onSubmitItem}>
             <input
                 className="input_form"
-                placeholder="Введите задачу!"
+                placeholder="Type your task!"
                 {...input.bind}
             ></input>
             <input type='submit' hidden></input>

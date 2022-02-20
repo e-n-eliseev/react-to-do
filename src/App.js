@@ -7,6 +7,9 @@ import ToDoList from './components/toDoList/ToDoList';
 import uniqid from 'uniqid';
 import { TailSpin } from 'react-loader-spinner'
 import Context from './Context';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ErrorPage from './components/404/404';
+import BasePage from './components/basePage/BasePage';
 
 function App() {
   //хук параметра видимости формы добавления элемента в список
@@ -19,6 +22,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   //хук расзмера страницы паггинации
   const [numPerPage] = useState(4);
+  //хук загрузки ошибки загрузки данных
+  const [error, setError] = useState(false)
 
   //хук загружающий данные после монтирования компонента
   useEffect(() => {
@@ -34,7 +39,12 @@ function App() {
       .then(data => setTimeout(() => {
         setToDoList(data);
         setLoading(false);
-      }, 2000));
+      }, 2000))
+      .catch(err => setTimeout(() => {
+        setLoading(false);
+        setError(true)
+      }, 2000)
+      );
   }, []);
   //функция удаления элемента
   const deleteItem = (id) => {
@@ -65,41 +75,49 @@ function App() {
   }
   return (
     <Context.Provider value={{ deleteItem, changeStatus }}>
-      <div className="App">
-        <header className="header">
-          <h1 className='app_heading'>
-            Welcome to TODO list react page
-          </h1>
-        </header>
-        <main className='main'>
-          <h2 className='main_heading'>
-            Here you can change your ToDo list table.
-          </h2>
-          <ShowAddFormList
-            showAddForm={showAddForm}
-            showSearchForm={showSearchForm}
-          />
-          {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
-          {loading
-            ? <TailSpin
-              color="rgb(152, 195, 195)"
-              height={80}
-              width={80}
+      <BrowserRouter>
+        <div className="App">
+          <header className="header">
+            <h1 className='app_heading'>
+              Welcome to TODO list react page
+            </h1>
+          </header>
+          <main className='main'>
+            <h2 className='main_heading'>
+              Here you can change your ToDo list table.
+            </h2>
+            <ShowAddFormList
+              showAddForm={showAddForm}
+              showSearchForm={showSearchForm}
             />
-            : toDoList.length
-              ? <ToDoList
-                toDoList={toDoList}
-                numPerPage={numPerPage}
+            {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
+            {loading
+              ? <TailSpin
+                color="rgb(152, 195, 195)"
+                height={80}
+                width={80}
               />
-              : <h3>Your TODO list is empty</h3>
-          }
-        </main>
-        <footer className='footer'>
-          <a href='https://github.com/e-n-eliseev'>
-            Created by e-n-eliseev. Click to visit GitHub page.
-          </a>
-        </footer>
-      </div>
+              : !error
+                ? toDoList.length
+                  ? <Routes>
+                    <Route path="/" element={<BasePage />} />
+                    <Route path="/:curPage" element={<ToDoList
+                      toDoList={toDoList}
+                      numPerPage={numPerPage}
+                    />} />
+                    <Route path='/*' element={<ErrorPage />} />
+                  </Routes>
+                  : <h3 className='empty'>Your TODO list is empty</h3>
+                : <ErrorPage />
+            }
+          </main>
+          <footer className='footer'>
+            <a href='https://github.com/e-n-eliseev'>
+              Created by e-n-eliseev. Click to visit GitHub page.
+            </a>
+          </footer>
+        </div>
+      </BrowserRouter>
     </Context.Provider>
   );
 }
