@@ -6,6 +6,8 @@
 }
 .header,
 .footer {
+  text-align: center;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,15 +19,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 5px;
   &_heading {
     margin: 20px 0;
+    text-align: center;
   }
 }
-.add_form {
-  width: 500px;
-}
 .switch_form {
+  padding: 5px;
   display: flex;
   gap: 50px;
 }
@@ -35,12 +36,15 @@
 .list {
   margin: 0;
   padding: 0;
+  flex: 1 1 auto;
+  max-width: 500px;
+  width: 100%;
   &_item {
     display: flex;
-    width: 500px;
     align-items: center;
     gap: 10px;
     position: relative;
+    justify-content: space-between;
     &_text {
       overflow: hidden;
       &_done {
@@ -67,7 +71,7 @@
   }
 }
 .btn_form {
-  margin: 10px 0;
+  margin: 10px;
 }
 .btn_list {
   flex: 0 0 105px;
@@ -87,13 +91,15 @@
 }
 .list_item,
 .add_form {
+  max-width: 500px;
+  width: 100%;
   border: 2px solid #ced4da;
   box-sizing: border-box;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 5px #ced4da;
   background-color: rgb(152, 195, 195);
-  margin: 10px;
+  margin: 5px 0;
 }
 .ant-pagination {
   display: flex;
@@ -117,6 +123,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     &-active {
       outline: 3px solid #0d6dfd62;
       background-color: rgb(152, 195, 195);
@@ -134,6 +141,7 @@
       color: #212529;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
       &:hover {
         background-color: rgb(152, 195, 195);
       }

@@ -35,7 +35,8 @@ const ToDoListItem = ({ item }) => {
             </p>
             <Button className="btn_form"
                 onClick={() => onDelete(item.id)}
-                variant="danger">&times;</Button>
+                variant="danger">&times;
+            </Button>
         </li>
     )
 }

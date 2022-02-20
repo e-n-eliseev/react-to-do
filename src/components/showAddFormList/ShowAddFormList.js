@@ -14,13 +14,13 @@ const ShowAddFormList = ({ showAddForm, showSearchForm }) => {
             <Form.Check
                 type="switch"
                 id="custom-switch"
-                label="Show TODO add form"
+                label="Show/hide TODO add form"
                 onChange={onShowAddForm}
             />
             <Form.Check
                 type="switch"
-                id="custom-switch"
-                label="Show search form"
+                id="custom-search"
+                label="Show/hide and reset search form"
                 onChange={onShowSearchForm}
             />
         </Form>

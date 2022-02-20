@@ -10,6 +10,7 @@ import Context from './Context';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ErrorPage from './components/404/404';
 import BasePage from './components/basePage/BasePage';
+import SearchForm from './components/searchForm/SearchForm';
 
 function App() {
   //хук параметра видимости формы добавления элемента в список
@@ -18,6 +19,10 @@ function App() {
   const [searchFormVision, setSearchFormVision] = useState(false);
   //хук списка дел
   const [toDoList, setToDoList] = useState("");
+  //хук отфильтрованного списка дел
+  const [filteredToDoList, setFilteredToDoList] = useState("");
+  //хук параметра фильтра списка дел
+  const [filterParam, setFilterParam] = useState("");
   //хук этапа подгрузки данных
   const [loading, setLoading] = useState(true);
   //хук расзмера страницы паггинации
@@ -38,6 +43,7 @@ function App() {
       }))
       .then(data => setTimeout(() => {
         setToDoList(data);
+        setFilteredToDoList(data);
         setLoading(false);
       }, 2000))
       .catch(err => setTimeout(() => {
@@ -49,12 +55,13 @@ function App() {
   //функция удаления элемента
   const deleteItem = (id) => {
     setToDoList(toDoList.filter(item => item.id !== id))
+    setFilteredToDoList(filteredToDoList.filter(item => item.id !== id))
   }
   //функция изменения статуса записи
   const changeStatus = (id) => {
     setToDoList(toDoList.map(item => {
       if (item.id === id) {
-        item.status = !item.status
+        item.status = !item.status;
       }
       return item;
     }))
@@ -66,12 +73,27 @@ function App() {
   //функция изменения видимости формы поиска элемента
   const showSearchForm = () => {
     setSearchFormVision(!searchFormVision);
+    setFilterParam("");
+    searchReset();
+  }
+  //функция поиска элементов списка
+  const searchItem = (text) => {
+    const filter = new RegExp(text);
+    setFilterParam(text);
+    setFilteredToDoList(toDoList.filter((item) => filter.test(item.text)));
+    console.log(toDoList.filter((item) => filter.test(item.text)))
   }
   //функция добавления записи в список
   const addItemToForm = (text) => {
-    const newToDoList = [...toDoList];
-    newToDoList.push({ id: uniqid(), status: false, text });
-    setToDoList(newToDoList);
+    //const newToDoList = [...toDoList];
+    toDoList.push({ id: uniqid(), status: false, text });
+    setToDoList(toDoList);
+    setFilteredToDoList(toDoList);
+    searchItem(filterParam);
+  }
+  //функция сброса параметра поиска элементов списка
+  const searchReset = () => {
+    setFilteredToDoList(toDoList);
   }
   return (
     <Context.Provider value={{ deleteItem, changeStatus }}>
@@ -91,6 +113,10 @@ function App() {
               showSearchForm={showSearchForm}
             />
             {addFormVision && <AddToDoListForm addItemToForm={addItemToForm} />}
+            {searchFormVision && <SearchForm
+              searchItem={searchItem}
+              searchReset={searchReset}
+            />}
             {loading
               ? <TailSpin
                 color="rgb(152, 195, 195)"
@@ -98,11 +124,11 @@ function App() {
                 width={80}
               />
               : !error
-                ? toDoList.length
+                ? filteredToDoList.length
                   ? <Routes>
                     <Route path="/" element={<BasePage />} />
                     <Route path="/:curPage" element={<ToDoList
-                      toDoList={toDoList}
+                      toDoList={filteredToDoList}
                       numPerPage={numPerPage}
                     />} />
                     <Route path='/*' element={<ErrorPage />} />
