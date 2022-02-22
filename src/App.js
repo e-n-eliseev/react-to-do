@@ -138,7 +138,7 @@ function App() {
             }
           </main>
           <footer className='footer'>
-            <a href='https://github.com/e-n-eliseev'>
+            <a href='https://github.com/e-n-eliseev/react-to-do'>
               Created by e-n-eliseev. Click to visit GitHub page.
             </a>
           </footer>
