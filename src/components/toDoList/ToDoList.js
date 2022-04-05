@@ -6,11 +6,11 @@ import { Pagination } from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 
 //создаем кастомный хук, пропс - количество отображаемых элементов паггинатора
-const usePagginator = (numPerPage, quantityPages) => {
+const usePagginator = (quantityPages) => {
     //первы элемент отображаемого списка
     const [minItemNumber, setMinItemNumber] = useState(0);
     //последний элемент отображаемого списка
-    const [maxItemNumber, setMaxItemNumber] = useState(numPerPage);
+    const [maxItemNumber, setMaxItemNumber] = useState(4);
     const location = useLocation();
     //определяем параметр адреса текущей страницы
     const basePage = +parseInt(location.pathname.split("")
@@ -23,8 +23,8 @@ const usePagginator = (numPerPage, quantityPages) => {
         if (basePage > quantityPages) {
             page = quantityPages;
         }
-        setMinItemNumber((page - 1) * numPerPage);
-        setMaxItemNumber(page * numPerPage);
+        setMinItemNumber((page - 1) * 4);
+        setMaxItemNumber(page * 4);
         setCurPage(page);
         navigate(`/${page}`)
     }
@@ -35,7 +35,7 @@ const usePagginator = (numPerPage, quantityPages) => {
         //параметы работы паггинатора
         bind: {
             current: curPage,
-            defaultPageSize: numPerPage,
+            defaultPageSize: 4,
             hideOnSinglePage: true,
             onChange: handleChange,
             showSizeChanger: false
@@ -43,18 +43,18 @@ const usePagginator = (numPerPage, quantityPages) => {
     }
 }
 
-const ToDoList = ({ toDoList, numPerPage }) => {
-    const quantityPages = Math.ceil(toDoList.length / numPerPage);
+const ToDoList = ({ toDoList }) => {
+    const quantityPages = Math.ceil(toDoList.length / 4);
     const {
         minItemNumber,
         maxItemNumber,
         curPage,
-        bind } = usePagginator(numPerPage, quantityPages);
+        bind } = usePagginator(quantityPages);
 
     //отслеживаем изменения происходящие в списке, для корректного отображения
     // паггинации
     useEffect(() => {
-        if (!(toDoList.length % 4) && toDoList.length && curPage !== 1) {
+        if ((Number.parseInt(toDoList.length / 4) < curPage - 1) && toDoList.length && curPage !== 1) {
             bind.onChange(curPage - 1);
         } else bind.onChange(curPage);
 
@@ -82,7 +82,6 @@ const ToDoList = ({ toDoList, numPerPage }) => {
 
 ToDoList.propTypes = {
     toDoList: PropTypes.array.isRequired,
-    numPerPage: PropTypes.number.isRequired
 }
 
 export default ToDoList;

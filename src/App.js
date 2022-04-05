@@ -26,8 +26,6 @@ function App() {
   const [filterParam, setFilterParam] = useState("");
   //хук этапа подгрузки данных
   const [loading, setLoading] = useState(true);
-  //хук расзмера страницы паггинации
-  const [numPerPage] = useState(4);
   //хук загрузки ошибки загрузки данных
   const [error, setError] = useState(false)
 
@@ -74,7 +72,6 @@ function App() {
   //функция изменения видимости формы поиска элемента
   const showSearchForm = () => {
     setSearchFormVision(!searchFormVision);
-    setFilterParam("");
     searchReset();
   }
   //функция поиска элементов списка
@@ -93,6 +90,7 @@ function App() {
   }
   //функция сброса параметра поиска элементов списка
   const searchReset = () => {
+    setFilterParam("");
     setFilteredToDoList(toDoList);
   }
   return (
@@ -129,7 +127,6 @@ function App() {
                     <Route path="/" element={<BasePage />} />
                     <Route path="/:curPage" element={<ToDoList
                       toDoList={filteredToDoList}
-                      numPerPage={numPerPage}
                     />} />
                     <Route path='/*' element={<ErrorPage />} />
                   </Routes>
