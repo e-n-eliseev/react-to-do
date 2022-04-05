@@ -3,7 +3,7 @@ import ToDoListItem from "./toDoListItem/ToDoListItem";
 import uniqid from 'uniqid';
 import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 //создаем кастомный хук, пропс - количество отображаемых элементов паггинатора
 const usePagginator = (quantityPages) => {
@@ -11,12 +11,10 @@ const usePagginator = (quantityPages) => {
     const [minItemNumber, setMinItemNumber] = useState(0);
     //последний элемент отображаемого списка
     const [maxItemNumber, setMaxItemNumber] = useState(4);
-    const location = useLocation();
     //определяем параметр адреса текущей страницы
-    const basePage = +parseInt(location.pathname.split("")
-        .reverse().join('')).toString().split("").reverse().join('');
+    const { curPage: basePage } = useParams();
     //задаем начальную текущую страницу
-    const [curPage, setCurPage] = useState(basePage || 1);
+    const [curPage, setCurPage] = useState(+basePage || 1);
     const navigate = useNavigate();
     //обрабатываем изменения при смене страницы
     const handleChange = (page) => {
