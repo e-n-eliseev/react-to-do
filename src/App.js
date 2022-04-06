@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddToDoListForm from './components/addToDoList/AddToDoListForm';
 import ShowAddFormList from './components/showAddFormList/ShowAddFormList';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ToDoList from './components/toDoList/ToDoList';
 //пакет для генерации уникальных ID
 import uniqid from 'uniqid';
@@ -51,10 +51,13 @@ function App() {
       }, 2000)
       );
   }, []);
+  //Хук отслеживает изменение параметра ильтровки или сотава списка дел
+  useEffect(() => {
+    searchItem(filterParam);
+  }, [filterParam, toDoList]);
   //функция удаления элемента
   const deleteItem = (id) => {
     setToDoList(toDoList.filter(item => item.id !== id))
-    setFilteredToDoList(filteredToDoList.filter(item => item.id !== id))
   }
   //функция изменения статуса записи
   const changeStatus = (id) => {
@@ -78,20 +81,18 @@ function App() {
   const searchItem = (text) => {
     const filter = new RegExp(text);
     setFilterParam(text);
-    setFilteredToDoList(toDoList.filter((item) => filter.test(item.text)));
-    console.log(toDoList.filter((item) => filter.test(item.text)))
+    toDoList
+      ? setFilteredToDoList(toDoList.filter((item) => filter.test(item.text)))
+      : setFilteredToDoList(toDoList)
   }
+
   //функция добавления записи в список
   const addItemToForm = (text) => {
-    toDoList.push({ id: uniqid(), status: false, text });
-    setToDoList(toDoList);
-    setFilteredToDoList(toDoList);
-    searchItem(filterParam);
+    setToDoList([...toDoList, { id: uniqid(), status: false, text }]);
   }
   //функция сброса параметра поиска элементов списка
   const searchReset = () => {
     setFilterParam("");
-    setFilteredToDoList(toDoList);
   }
   return (
     <Context.Provider value={{ deleteItem, changeStatus }}>
